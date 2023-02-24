@@ -120,3 +120,10 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = "users.CustomUser"
+
+SMUGMUG_CREDENTIALS = {
+    "app_key": env("SMUGMUG_APP_KEY"),
+    "app_secret": env("SMUGMUG_APP_SECRET"),
+    "user_token": env("SMUGMUG_USER_TOKEN"),
+    "user_secret": env("SMUGMUG_USER_SECRET")
+}
