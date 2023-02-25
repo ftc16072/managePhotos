@@ -1,0 +1,9 @@
+{% if key %}
+  <H1>Uploaded {{ key }}</H1>
+{% endif %}  
+<form method="post" enctype="multipart/form-data">
+{% csrf_token %}
+<input type="file" name="upload" accept="image/*">
+<br/>
+<input type="submit" value="Upload">
+</form>
