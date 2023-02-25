@@ -24,5 +24,7 @@ Step 5:
 Step 6:
  - Add support for multiple albums per team
 
+Step 7:
+ - Add support for adding albums ( weburilookup )
 
  
