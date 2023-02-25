@@ -17,7 +17,7 @@ def upload_data(album_key, filename, img_data):
   headers = {
       'X-Smug-ResponseType': 'JSON',
       'X-Smug-Version': 'v2',
-      'X-Smug-AlbumUri': '/api/v2/album/' + album_key,
+      'X-Smug-AlbumUri': album_key,
       'X-Smug-FileName': filename,
       'Content-Length': str(len(img_data)),
       'Content-Type': mimetypes.guess_type(filename)[0],
@@ -26,6 +26,4 @@ def upload_data(album_key, filename, img_data):
   r = get_auth_session().post("https://upload.smugmug.com/",
                               headers=headers,
                               data=img_data)
-  imgKey = r.json()['Image']['ImageUri']
-
-  return imgKey
+  return r.json()['Image']['ImageUri']

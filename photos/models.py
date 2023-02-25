@@ -14,7 +14,7 @@ class Team(models.Model):
 class Album(models.Model):
   team = models.ForeignKey(Team, on_delete=models.CASCADE)
   name = models.CharField(max_length=200)
-  smugmug_key = models.CharField(max_length=16)
+  smugmug_uri = models.CharField(max_length=32)
   is_active = models.BooleanField(default=True)
 
   def __str__(self):
@@ -25,12 +25,12 @@ class Album(models.Model):
 
 class Photo(models.Model):
   album = models.ForeignKey(Album, on_delete=models.CASCADE)
-  smugmug_key = models.CharField(max_length=16)
+  smugmug_uri = models.CharField(max_length=32)
   medium_link = models.CharField(max_length=255)
   description = models.CharField(max_length=255)
 
   def __str__(self):
-    return 'IMG: ' + self.smugmug_key
+    return 'IMG: ' + self.smugmug_uri
 
 
 class Tags(models.Model):
