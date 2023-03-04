@@ -40,10 +40,10 @@ class Photo(models.Model):
     return self.medium_link
 
 
-class Tags(models.Model):
+class Tag(models.Model):
   name = models.CharField(max_length=64)
   album = models.ForeignKey(Album, on_delete=models.CASCADE)
-  photos = models.ManyToManyField(Photo)
+  photos = models.ManyToManyField(Photo, blank=True)
 
   def __str__(self):
     return self.name

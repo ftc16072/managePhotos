@@ -1,12 +1,16 @@
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render
 
-from .models import Album, Photo
+from .models import Album, Photo, Tag
 from . import smugmug
 
 
 def upload(request, album_id):
   album = get_object_or_404(Album, pk=album_id)
+
+  context = {"album":  album, 
+             "tags" : Tag.objects.filter(album=album)}
+
   if request.method == 'POST' and request.FILES['upload']:
     upload = request.FILES['upload']
     photo_uri = smugmug.upload_data(album.smugmug_uri, upload.name,
@@ -16,12 +20,9 @@ def upload(request, album_id):
     photo.smugmug_uri = photo_uri
     photo.save()
 
-    return render(request, 'photos/upload.html', {
-        'album': album,
-        'key': photo_uri
-    })
+    context["key"] = photo_uri;
 
-  return render(request, 'photos/upload.html', {'album': album})
+  return render(request, 'photos/upload.html', context)
 
 
 def search(request):
