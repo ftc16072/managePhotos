@@ -27,3 +27,16 @@ def upload_data(album_key, filename, img_data):
                               headers=headers,
                               data=img_data)
   return r.json()['Image']['ImageUri']
+
+
+def get_medium_link(image_uri):
+  headers = {
+      'X-Smug-ResponseType': 'JSON',
+      'X-Smug-Version': 'v2',
+  }
+  r = get_auth_session().get("https://www.smugmug.com/" + image_uri + "!sizes",
+                             headers=headers)
+  try:
+    return r.json()['Response']['ImageSizes']['MediumImageUrl']
+  except KeyError:  # in case it was a tiny image and there is no medium
+    return r.json()['Response']['ImageSizes']['LargestImageUrl']

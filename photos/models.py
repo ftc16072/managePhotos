@@ -1,4 +1,5 @@
 from django.db import models
+from . import smugmug
 
 
 class Team(models.Model):
@@ -31,6 +32,12 @@ class Photo(models.Model):
 
   def __str__(self):
     return 'IMG: ' + self.smugmug_uri
+
+  def get_medium_link(self):
+    if self.medium_link == "":
+      self.medium_link = smugmug.get_medium_link(self.smugmug_uri)
+      self.save()
+    return self.medium_link
 
 
 class Tags(models.Model):
