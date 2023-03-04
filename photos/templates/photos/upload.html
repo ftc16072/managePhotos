@@ -1,3 +1,6 @@
+{% extends "photos/base.html" %}
+{% block title %}Upload{% endblock %}
+{% block content %}
 {% if key %}
   <H1>Uploaded {{ key }}</H1>
 {% endif %}  
@@ -7,3 +10,4 @@
 <br/>
 <input type="submit" value="Upload">
 </form>
+{% endblock %}
