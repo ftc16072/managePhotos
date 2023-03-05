@@ -24,11 +24,22 @@ class Album(models.Model):
     return 'INACTIVE: ' + self.name
 
 
+class Tag(models.Model):
+  name = models.CharField(max_length=64)
+  album = models.ForeignKey(Album, on_delete=models.CASCADE)
+
+  def __str__(self):
+    return self.name
+
+  class Meta:
+    unique_together = [['name', 'album']]
+
 class Photo(models.Model):
   album = models.ForeignKey(Album, on_delete=models.CASCADE)
   smugmug_uri = models.CharField(max_length=32)
   medium_link = models.CharField(max_length=255)
   description = models.CharField(max_length=255)
+  tags = models.ManyToManyField(Tag, blank=True)
 
   def __str__(self):
     return 'IMG: ' + self.smugmug_uri
@@ -38,15 +49,3 @@ class Photo(models.Model):
       self.medium_link = smugmug.get_medium_link(self.smugmug_uri)
       self.save()
     return self.medium_link
-
-
-class Tag(models.Model):
-  name = models.CharField(max_length=64)
-  album = models.ForeignKey(Album, on_delete=models.CASCADE)
-  photos = models.ManyToManyField(Photo, blank=True)
-
-  def __str__(self):
-    return self.name
-
-  class Meta:
-    unique_together = [['name', 'album']]

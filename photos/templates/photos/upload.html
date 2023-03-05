@@ -21,7 +21,7 @@
   <tr>
     <td><label for="tags">Tags:</label></td>
     <td>
-<select name="tags" id="tags" multiple>
+<select name="tags" id="tags" size=10 multiple>
    {% for tag in tags %}
      <option value="{{ tag.id }}">{{ tag }}</option>
    {% endfor %}
