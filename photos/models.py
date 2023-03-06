@@ -37,15 +37,15 @@ class Tag(models.Model):
 class Photo(models.Model):
   album = models.ForeignKey(Album, on_delete=models.CASCADE)
   smugmug_uri = models.CharField(max_length=32)
-  medium_link = models.CharField(max_length=255)
+  photo_link = models.CharField(max_length=255)
   description = models.CharField(max_length=255)
   tags = models.ManyToManyField(Tag, blank=True)
 
   def __str__(self):
     return 'IMG: ' + self.smugmug_uri
 
-  def get_medium_link(self):
-    if self.medium_link == "":
-      self.medium_link = smugmug.get_medium_link(self.smugmug_uri)
+  def get_photo_link(self):
+    if self.photo_link == "":
+      self.photo_link = smugmug.get_small_link(self.smugmug_uri)
       self.save()
-    return self.medium_link
+    return self.photo_link
