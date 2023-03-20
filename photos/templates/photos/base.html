@@ -8,6 +8,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="{% static 'photos/style.css' %}" />
     <link rel="shortcut icon" href="{%  static 'photos/favicon.ico' %}">
+    <script>
+       function setAllOptions(select, newValue){  
+          Array.prototype.forEach.call(select.options, function(option, index) {
+            option.selected = newValue;
+          });
+        }
+    </script>
 </head>
 <body>
 Logged in as: {{ user.get_username }}  - <a href="{% url 'logout' %}?next={{ request.path }}">Logout</a>

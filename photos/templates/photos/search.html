@@ -2,7 +2,7 @@
 {% block title %}Search{% endblock %}
 {% block content %}
 
-<form method="post" enctype="multipart/form-data">
+<form method="post" id="search" enctype="multipart/form-data">
 {% csrf_token %}
 
 <H1>Searching {{ album }} - <A href="{% url 'upload' album_id=album.id %}">Upload</A></H1>
@@ -19,23 +19,42 @@
    {% for tag in tags %}
      <option value="{{ tag.id }}">{{ tag }}</option>
    {% endfor %}
-</select></td>
+</select>
+<br/>
+<input type="button" onclick='setAllOptions(include_tags, true)' value="All"/>  
+<input type="button" onclick='setAllOptions(include_tags, false)' value="None"/>  
+</td>
       <td><label for="exclude_tags">Exclude:</label></td>
     <td>
 <select name="exclude_tags" id="exclude_tags" size=10 multiple>
    {% for tag in tags %}
      <option value="{{ tag.id }}">{{ tag }}</option>
    {% endfor %}
-</select></td>
+</select>
+<br/>
+<input type="button" onclick='setAllOptions(exclude_tags, true)' value="All"/>  
+<input type="button" onclick='setAllOptions(exclude_tags, false)' value="None"/>  
+</td>
+<script>
+  function findUntagged(){
+    setAllOptions(include_tags, false);
+    setAllOptions(exclude_tags, true);
+    document.getElementById("search").submit();
+  }
+</script>
 <tr>
   <td colspan=4>
     <div style="text-align: center">
 <input type="submit" value="Search">
+<input type="button" onclick='findUntagged()' value="Untagged"/>
 </div>
 </td>
 </tr>
  </table>
 </form>
+
+<br/>
+
 {% if photos %}
 <table>
   <tr><th>By</th><th>Image</th><th>Tags</th></tr>
