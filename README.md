@@ -3,8 +3,8 @@ A quick application to allow managing of photos
 
 # Remaining to add for v1
 ## User
-[ ] Allow editing of photo
-[ ] Store who uploaded a photo (and show)
+[x] Allow editing of photo metadata
+[x] Store who uploaded a photo (and show)
 [ ] Make resetting of password use email back end
 [x] Give Profile of Albums they have access to
 [x] Show who is logged in, and choice to logout on each page

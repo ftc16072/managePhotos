@@ -1,0 +1,53 @@
+{% extends "photos/base.html" %}
+{% block title %}Edit{% endblock %}
+{% block content %}
+<table>
+  <tr><th>By</th><th>Image</th><th>Tags</th></tr>
+  <tr>
+     <td>{% if photo.uploaded_by %} {{ photo.uploaded_by }} {% endif %}</td>
+
+     <td><A HREF="{{ photo.get_largest_link }}"><IMG src="{{ photo.get_photo_link }}"/></IMG><br/>
+        <div style="text-align: center">
+        {{ photo.description }}
+        </div>
+      </A>
+    </td>
+     <td>
+     {% for tag in photo.tags.all %}
+       {{ tag }}</br>
+     {% endfor %}
+     </td>
+  </tr>
+</table>
+
+<form method="post" enctype="multipart/form-data">
+{% csrf_token %}
+<table>
+  <tr>
+    <td><label for="description">Description:</label></td>
+    <td><textarea id="description" name="description" rows="4" cols="30">{{ photo.description }}</textarea></td>
+</td>
+  </tr>
+  <tr>
+    <td><label for="tags">Tags:</label></td>
+    <td>
+<select name="tags" id="tags" size=10 multiple>
+   {% for tag in tags %}
+     <option value="{{ tag.id }}" {% if tag in photo.tags.all %}selected{% endif %}> {{ tag }}</option>
+   {% endfor %}
+</select></td>
+  </tr>
+ <tr>
+<td><label for="newTags">New Tags:</label></td>
+<td><input type="text" id="newTags" name="newTags" size=30 placeholder="separated by space"></td>
+<tr/>
+<tr>
+  <td colspan=2>
+    <div style="text-align: center">
+<input type="submit" value="Save">
+</div>
+</td>
+</tr>
+ </table>
+</form>
+ {% endblock %}

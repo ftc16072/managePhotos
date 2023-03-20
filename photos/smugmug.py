@@ -32,19 +32,30 @@ def upload_data(album_key, filename, img_data):
 def get_image_link(json, image_size):
   try:
     return json['ImageSizeDetails'][image_size]['Url']
-  except KeyError: # tiny image and there was none at that size
-    biggest = json['ImageSizeDetails']['LargestImageSize']
-    return get_image_link(json, biggest)
+  except KeyError:  # tiny image and there was none at that size
+    return get_largest_image(json)
+
+
+def get_largest_image(json):
+  biggest = json['ImageSizeDetails']['LargestImageSize']
+  return get_image_link(json, biggest)
+
+
+def get_largest_link(image_uri):
+  headers = {'X-Smug-Version': 'v2', 'Accept': 'application/json'}
+
+  url = "https://api.smugmug.com" + image_uri + "!largestimage"
+
+  r = get_auth_session().get(url, headers=headers)
+  json = r.json()['Response']
+  return json['LargestImage']['Url']
+
 
 def get_small_link(image_uri):
-  headers = {
-      'X-Smug-Version': 'v2',
-      'Accept': 'application/json'
-  }
+  headers = {'X-Smug-Version': 'v2', 'Accept': 'application/json'}
 
-  url = "https://api.smugmug.com" + image_uri + "!sizedetails?PrefetchSizes=Medium";
-                      
+  url = "https://api.smugmug.com" + image_uri + "!sizedetails?PrefetchSizes=Medium"
+
   r = get_auth_session().get(url, headers=headers)
   json = r.json()['Response']
   return get_image_link(json, 'ImageSizeSmall')
-

@@ -53,14 +53,28 @@ def upload(request, album_id):
     photo.album = album
     photo.smugmug_uri = photo_uri
     photo.description = request.POST['description']
+    photo.uploaded_by = request.user
     photo.save()
 
-    if 'tags' in request.POST:
-      photo.tags.set(request.POST['tags'])
+    set_tags(photo, album, request.POST)
 
-    if 'newTags' in request.POST:
-      for tagString in request.POST['newTags'].split(' '):
-        lowerTag = tagString.lower()
+    context["key"] = photo_uri
+
+  return render(request, 'photos/upload.html', context)
+
+
+def set_tags(photo, album, post_data):
+  photo.tags.clear()
+  if 'tags' in post_data:
+    tags = dict(post_data)['tags']
+    for tag in tags:
+      print(f"Adding {tag} {tags} {post_data}")
+      photo.tags.add(tag)
+
+  if 'newTags' in post_data:
+    for tagString in post_data['newTags'].split(' '):
+      lowerTag = tagString.lower().strip()
+      if lowerTag:
         tagObjects = Tag.objects.filter(name=lowerTag, album=album)
         if tagObjects:
           tag = tagObjects[0]
@@ -71,11 +85,30 @@ def upload(request, album_id):
           tag.save()
         photo.tags.add(tag)
 
-    context["key"] = photo_uri
 
-  return render(request, 'photos/upload.html', context)
+@login_required
+def edit(request, album_id, photo_id):
+  photo = get_object_or_404(Photo, pk=photo_id)
+  album = photo.album
+
+  if not album.team.user_on_team(request.user):
+    context = {"team": album.team}
+    return render(request, 'photos/no_album_permission.html', context)
+
+  context = {
+      "photo": photo,
+      "album": album,
+      "tags": Tag.objects.filter(album=album).order_by('name')
+  }
+  if request.method == 'POST':
+    photo.description = request.POST['description']
+    set_tags(photo, album, request.POST)
+    photo.save()
+
+  return render(request, 'photos/edit.html', context)
 
 
+@login_required
 def search(request, album_id):
   album = get_object_or_404(Album, pk=album_id)
 
@@ -89,7 +122,8 @@ def search(request, album_id):
   }
   if request.method == 'POST':
     queryDict = dict(request.POST)
-    include_tags = queryDict['include_tags']
+    include_tags = queryDict[
+        'include_tags'] if 'include_tags' in queryDict else []
     search = queryDict['search']
 
     if search == 'any':

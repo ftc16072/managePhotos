@@ -60,8 +60,12 @@ class Photo(models.Model):
   album = models.ForeignKey(Album, on_delete=models.CASCADE)
   smugmug_uri = models.CharField(max_length=32)
   photo_link = models.CharField(max_length=255)
+  largest_link = models.CharField(max_length=255)
   description = models.CharField(max_length=255)
   tags = models.ManyToManyField(Tag, blank=True)
+  uploaded_by = models.ForeignKey(settings.AUTH_USER_MODEL,
+                                  null=True,
+                                  on_delete=models.SET_NULL)
 
   def __str__(self):
     return 'IMG: ' + self.smugmug_uri
@@ -71,3 +75,9 @@ class Photo(models.Model):
       self.photo_link = smugmug.get_small_link(self.smugmug_uri)
       self.save()
     return self.photo_link
+
+  def get_largest_link(self):
+    if self.largest_link == "":
+      self.largest_link = smugmug.get_largest_link(self.smugmug_uri)
+      self.save()
+    return self.largest_link
