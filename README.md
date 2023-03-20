@@ -9,7 +9,6 @@ A quick application to allow managing of photos
 [x] Give Profile of Albums they have access to
 [x] Show who is logged in, and choice to logout on each page
 [x] Search for all untagged photos
-[ ] paginate returned photos if > 10
 
 ## Admin
 [x] Allow adding user
@@ -20,6 +19,9 @@ A quick application to allow managing of photos
 ## Admin stuff
 [ ] Allow making people admins
 [ ] Allow removing users
+
+## User Stuff
+[ ] paginate returned photos if > 10
 
 ## Smugmug stuff
 [ ] Scan smugmug and add missing photos (but with no tags)
