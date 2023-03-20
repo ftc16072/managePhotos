@@ -1,4 +1,33 @@
 body {
-    background-color: darkgray;
-    color: whitesmoke;
+  background-color: black;
+  color: darkgray;
+}
+
+table,
+th,
+td {
+  border: 1px solid darkgray;
+  border-collapse: collapse;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+th {
+  background-color: darkgray;
+  color: black;
+}
+
+.no_border {
+  border: 0px;
+}
+
+table.no_border td {
+  border: 0px;
+}
+
+h1.error {
+  background-color: red;
+  color: white;
 }

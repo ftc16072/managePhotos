@@ -2,5 +2,69 @@
 
 {% block title %}Admin Team{% endblock %}
 {% block content %}
+{% if error %}
+<H1 class="error">{{ error }}</H1>
+{% endif %}
 <H1>Admin {{team.name}}</H1>
+
+<H2>Albums</H2>
+<table borders=1>
+  <tr><th>Active</th><th>Album Name</th></tr>
+  {% for album in albums %}
+   <tr><td><input type="checkbox" {% if album.is_active %} checked {% endif %}/> </td><td>{{ album.name }}</td></tr>
+  {% endfor %}
+</table>
+Form goes here to add new album  
+
+<H2>Members</H2>
+<table>
+  <tr><th>First</th><th>Last</th><th>Email</th><th>Admin</th><th>Action</th></tr>
+  {% for admin in admins %}
+  <tr><td>{{ admin.first_name}}</td><td>{{ admin.last_name }}</td><td>{{admin.email}}</td><td><input type="checkbox" checked disabled></input></td>
+    <td></td>
+  </tr>
+  {% endfor %}
+  {% for member in members %}
+  <tr><td>{{ member.first_name}}</td><td>{{ member.last_name }}</td><td>{{member.email}}</td><td><input type="checkbox" disabled></input>
+    <td></td>
+  </tr>
+  {% endfor %}
+</table>
+<br/>
+<fieldset>
+  <legend>Add Member</legend>
+<form method="post" enctype="multipart/form-data">
+{% csrf_token %}
+<table class="no_border">
+  <tr>
+    <td><label for="first">First:</label></td>
+    <td><input type="text" id="first" name="first" size=30 placeholder="First Name"></td>
+  </tr>
+  <tr>
+    <td><label for="last">Last:</label></td>
+    <td><input type="text" id="last" name="last" size=30 placeholder="Last Name"></td>
+  </tr>
+  <tr>
+    <td><label for="email">Email:</label></td>
+    <td><input type="text" id="email" name="email" size=30 placeholder="Email"></td>
+  </tr>
+  <tr>
+    <td><label for="pass1">Password:</label></td>
+    <td><input type="password" id="pass1" name="pass1" size=30 placeholder="password"></td>
+  </tr>
+  <tr>
+    <td><label for="pass2">Password:</label></td>
+    <td><input type="password" id="pass2" name="pass2" size=30 placeholder="verify password"></td>
+  </tr>
+  <tr>
+  <td colspan=2>
+    <div style="text-align: center">
+    <input type="submit" value="Add">
+    </div>
+  </td>
+  </tr>
+</table>
+</form>
+</fieldset>
+
 {% endblock %}

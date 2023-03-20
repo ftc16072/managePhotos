@@ -1,6 +1,9 @@
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render
 from django.contrib.auth.decorators import login_required
+from django.conf import settings
+from users.models import CustomUser
+from django.core.exceptions import ObjectDoesNotExist
 
 from .models import Album, Photo, Tag, Team
 from . import smugmug
@@ -9,10 +12,36 @@ from . import smugmug
 @login_required
 def team_admin(request, team_id):
   team = get_object_or_404(Team, pk=team_id)
-  context = {"team": team}
+
+  context = {
+      "team": team,
+      "albums": Album.objects.filter(team=team),
+      "admins": team.admins.all(),
+      "members": team.members.all(),
+      "error": ""
+  }
 
   if not team.admin_on_team(request.user):
     return render(request, 'photos/no_admin_permission.html', context)
+  if request.method == 'POST':
+    print(f"Data: {request.POST}, {request}")
+    # First, check and see if email already has a user.  If so, just add user to team
+    email = request.POST['email']
+    user = None
+    try:
+      user = CustomUser.objects.get(email__exact=email)
+    except ObjectDoesNotExist:
+      if request.POST['pass1'] == request.POST['pass2']:
+        user = CustomUser.objects.create_user(first_name=request.POST['first'],
+                                              last_name=request.POST['last'],
+                                              email=request.POST['email'],
+                                              password=request.POST['pass1'])
+      else:
+        context["error"] = "Passwords must match to create user"
+    if user:
+      team.members.add(user)
+      context['members'] = team.members.all()
+
   return render(request, "photos/admin_team.html", context)
 
 

@@ -12,8 +12,8 @@ A quick application to allow managing of photos
 [ ] paginate returned photos if > 10
 
 ## Admin
-[ ] Allow adding user
-[ ] Allow creating user
+[x] Allow adding user
+[x] Allow creating user
 [ ] Allow adding new album from weblink ( weburilookup )
 
 # Remaining to add for v2
