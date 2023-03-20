@@ -68,7 +68,6 @@ def set_tags(photo, album, post_data):
   if 'tags' in post_data:
     tags = dict(post_data)['tags']
     for tag in tags:
-      print(f"Adding {tag} {tags} {post_data}")
       photo.tags.add(tag)
 
   if 'newTags' in post_data:
