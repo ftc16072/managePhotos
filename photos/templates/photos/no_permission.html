@@ -1,0 +1,15 @@
+{% extends "photos/base.html" %}
+{% block title %}No Permission{% endblock %}
+{% block content %}
+This album is owned by {{ team.name }} which you are not a member of. 
+<br/>
+If this is incorrect, talk to your coach.
+
+{% if user.is_authenticated %}
+     <li>User: {{ user.get_username }}</li>
+     <li><a href="{% url 'logout' %}?next={{ request.path }}">Logout</a></li>
+   {% else %}
+     <li><a href="{% url 'login' %}?next={{ request.path }}">Login</a></li>
+{% endif %}
+
+{% endblock %}

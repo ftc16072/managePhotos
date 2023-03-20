@@ -1,10 +1,22 @@
 from django.db import models
+from django.contrib.auth.models import User
+from django.conf import settings
 from . import smugmug
 
 
 class Team(models.Model):
   name = models.CharField(max_length=200)
   is_active = models.BooleanField(default=True)
+  admins = models.ManyToManyField(settings.AUTH_USER_MODEL,
+                                  related_name='admins')
+  members = models.ManyToManyField(settings.AUTH_USER_MODEL,
+                                   related_name='members',
+                                   blank=True)
+
+  def user_on_team(self, user_id):
+    if user_id in self.admins.all() or user_id in self.members.all():
+      return True
+    return False
 
   def __str__(self):
     if self.is_active:
@@ -33,6 +45,7 @@ class Tag(models.Model):
 
   class Meta:
     unique_together = [['name', 'album']]
+
 
 class Photo(models.Model):
   album = models.ForeignKey(Album, on_delete=models.CASCADE)
