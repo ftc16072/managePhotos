@@ -7,7 +7,7 @@ A quick application to allow managing of photos
 [ ] Store who uploaded a photo (and show)
 [ ] Make resetting of password use email back end
 [x] Give Profile of Albums they have access to
-[ ] Show who is logged in, and choice to logout on each page
+[x] Show who is logged in, and choice to logout on each page
 [ ] Search for all untagged photos
 [ ] paginate returned photos if > 10
 

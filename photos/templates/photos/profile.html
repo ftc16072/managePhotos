@@ -2,8 +2,6 @@
 {% block title %}Profile{% endblock %}
 {% block content %}
 
-<H2>{{ user.get_username }}  - <a href="{% url 'logout' %}?next={{ request.path }}">Logout</a></H2>
-
 <ul>
 {% for team in teams %}
    <li>{{ team.name }}</li><ul>
@@ -13,5 +11,14 @@
    </ul>
 {% endfor %}
 </ul>
+{% if admin_teams %}
+<HR>
+<H2>Admin</H2>
+<ul>
+{% for team in admin_teams %}
+<li><A href="{% url 'team_admin' team_id=team.id %}">{{ team.name }}</A></li><ul>
+{% endfor %}
+</ul>
+{% endif %}
 
 {% endblock %}

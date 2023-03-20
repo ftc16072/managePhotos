@@ -14,7 +14,12 @@ class Team(models.Model):
                                    blank=True)
 
   def user_on_team(self, user_id):
-    if user_id in self.admins.all() or user_id in self.members.all():
+    if self.admin_on_team(user_id) or user_id in self.members.all():
+      return True
+    return False
+
+  def admin_on_team(self, user_id):
+    if user_id in self.admins.all():
       return True
     return False
 

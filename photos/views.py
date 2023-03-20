@@ -7,10 +7,24 @@ from . import smugmug
 
 
 @login_required
+def team_admin(request, team_id):
+  team = get_object_or_404(Team, pk=team_id)
+  context = {"team": team}
+
+  if not team.admin_on_team(request.user):
+    return render(request, 'photos/no_admin_permission.html', context)
+  return render(request, "photos/admin_team.html", context)
+
+
+@login_required
 def profile(request):
   context = {
       'teams': [
           team for team in Team.objects.all() if team.user_on_team(request.user)
+      ],
+      'admin_teams': [
+          team for team in Team.objects.all()
+          if team.admin_on_team(request.user)
       ]
   }
 
@@ -23,7 +37,8 @@ def upload(request, album_id):
 
   if not album.team.user_on_team(request.user):
     context = {"team": album.team}
-    return render(request, 'photos/no_permission.html', context)
+
+    return render(request, 'photos/no_album_permission.html', context)
 
   context = {
       "album": album,
@@ -66,7 +81,7 @@ def search(request, album_id):
 
   if not album.team.user_on_team(request.user):
     context = {"team": album.team}
-    return render(request, 'photos/no_permission.html', context)
+    return render(request, 'photos/no_album_permission.html', context)
 
   context = {
       "album": album,

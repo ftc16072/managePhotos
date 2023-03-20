@@ -10,6 +10,9 @@
     <link rel="shortcut icon" href="{%  static 'photos/favicon.ico' %}">
 </head>
 <body>
+Logged in as: {{ user.get_username }}  - <a href="{% url 'logout' %}?next={{ request.path }}">Logout</a>
+</br>
+  <HR/>
     {% block content %}{% endblock %}
 </body>
 
