@@ -59,3 +59,15 @@ def get_small_link(image_uri):
   r = get_auth_session().get(url, headers=headers)
   json = r.json()['Response']
   return get_image_link(json, 'ImageSizeSmall')
+
+
+# Responds with a tuple that is name, uri
+def get_album_from_url(gallery_url):
+  headers = {'X-Smug-Version': 'v2', 'Accept': 'application/json'}
+
+  params = {"WebUri": gallery_url}
+  url = "https://api.smugmug.com/api/v2!weburilookup"
+
+  r = get_auth_session().get(url, params=params, headers=headers)
+  json = r.json()['Response']
+  return (json['Album']['Name'], json['Album']['Uri'])

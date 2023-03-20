@@ -24,23 +24,37 @@ def team_admin(request, team_id):
   if not team.admin_on_team(request.user):
     return render(request, 'photos/no_admin_permission.html', context)
   if request.method == 'POST':
-    print(f"Data: {request.POST}, {request}")
-    # First, check and see if email already has a user.  If so, just add user to team
-    email = request.POST['email']
-    user = None
-    try:
-      user = CustomUser.objects.get(email__exact=email)
-    except ObjectDoesNotExist:
-      if request.POST['pass1'] == request.POST['pass2']:
-        user = CustomUser.objects.create_user(first_name=request.POST['first'],
-                                              last_name=request.POST['last'],
-                                              email=request.POST['email'],
-                                              password=request.POST['pass1'])
-      else:
-        context["error"] = "Passwords must match to create user"
-    if user:
-      team.members.add(user)
-      context['members'] = team.members.all()
+    if 'smugmug' in request.POST:
+      gallery_url = request.POST['smugmug']  # it must be a new gallery one
+      try:
+        (name, uri) = smugmug.get_album_from_url(gallery_url)
+        album = Album()
+        album.team = team
+        album.name = name
+        album.smugmug_uri = uri
+        album.is_active = True
+        album.save()
+        context["albums"] = Album.objects.filter(team=team)
+      except KeyError:
+        context['error'] = "Couldn't find gallery at URL: " + gallery_url
+    else:
+      # First, check and see if email already has a user.  If so, just add user to team
+      email = request.POST['email']
+      user = None
+      try:
+        user = CustomUser.objects.get(email__exact=email)
+      except ObjectDoesNotExist:
+        if request.POST['pass1'] == request.POST['pass2']:
+          user = CustomUser.objects.create_user(
+              first_name=request.POST['first'],
+              last_name=request.POST['last'],
+              email=request.POST['email'],
+              password=request.POST['pass1'])
+        else:
+          context["error"] = "Passwords must match to create user"
+      if user:
+        team.members.add(user)
+        context['members'] = team.members.all()
 
   return render(request, "photos/admin_team.html", context)
 

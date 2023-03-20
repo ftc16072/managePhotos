@@ -17,6 +17,12 @@ A quick application to allow managing of photos
 [ ] Allow adding new album from weblink ( weburilookup )
 
 # Remaining to add for v2
+## Admin stuff
+[ ] Allow making people admins
+[ ] Allow removing users
+
+## Smugmug stuff
 [ ] Scan smugmug and add missing photos (but with no tags)
 [ ] Have description stored on smugmug as well
 [ ] sync pulls description from smugmug
+

@@ -11,10 +11,23 @@
 <table borders=1>
   <tr><th>Active</th><th>Album Name</th></tr>
   {% for album in albums %}
-   <tr><td><input type="checkbox" {% if album.is_active %} checked {% endif %}/> </td><td>{{ album.name }}</td></tr>
+   <tr><td><input type="checkbox" disabled {% if album.is_active %} checked {% endif %}/> </td><td>{{ album.name }}</td></tr>
   {% endfor %}
 </table>
-Form goes here to add new album  
+<form method="post" enctype="multipart/form-data">
+{% csrf_token %}
+<table>
+  <tr><td>Smugmug URL</td>
+      <td><input type="text" id="smugmug" name="smugmug" size=60 placeholder="URL"></td>
+  <tr>
+  <td colspan=2>
+    <div style="text-align: center">
+    <input type="submit" value="Add Gallery">
+    </div>
+  </td>
+  </tr>
+</table>
+</form>
 
 <H2>Members</H2>
 <table>
