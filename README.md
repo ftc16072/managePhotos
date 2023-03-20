@@ -14,7 +14,7 @@ A quick application to allow managing of photos
 ## Admin
 [x] Allow adding user
 [x] Allow creating user
-[ ] Allow adding new album from weblink ( weburilookup )
+[x] Allow adding new album from weblink ( weburilookup )
 
 # Remaining to add for v2
 ## Admin stuff
