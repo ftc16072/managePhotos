@@ -62,12 +62,11 @@
 <H2> {{ photos.count }} photos found! </H2>
 
 <table>
-  <tr><th>By</th><th>Image</th><th>Tags</th></tr>
+  <tr><th width=50%%>Image</th><th>Tags</th></tr>
   {% for photo in photos %}
   <tr>
-     <td>{% if photo.uploaded_by %} {{ photo.uploaded_by }} {% endif %}</td>
      <td><A HREF={% url 'edit' album_id=album.id photo_id=photo.id %}>
-      <IMG src="{{ photo.get_photo_link }}"/></A><br/>
+      <IMG class="results" src="{{ photo.get_photo_link }}"/></A><br/>
         <div style="text-align: center">
         {{ photo.description }}
         </div>
