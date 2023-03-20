@@ -17,7 +17,7 @@
     </script>
 </head>
 <body>
-Logged in as: {{ user.get_username }}  - <a href="{% url 'logout' %}?next={{ request.path }}">Logout</a>
+<a href="{%url 'profile' %}">Home</a> - {{ user.get_username }}  - <a href="{% url 'logout' %}?next={{ request.path }}">Logout</a>
 </br>
   <HR/>
     {% block content %}{% endblock %}

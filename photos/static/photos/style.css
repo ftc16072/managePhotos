@@ -33,9 +33,9 @@ h1.error {
 }
 
 a img {
-  border: 2px blue dashed;
-  border-radius: 10px;
-  padding: 5px;
+  border: 2px cyan dashed;
+  border-radius: 5px;
+  padding: 2px;
 }
 
 table {
@@ -44,4 +44,14 @@ table {
 
 img.results {
   width: 100%
+}
+
+/* unvisited link */
+a:link {
+  color: cyan;
+}
+
+/* visited link */
+a:visited {
+  color: violet;
 }
