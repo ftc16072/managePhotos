@@ -127,3 +127,9 @@ SMUGMUG_CREDENTIALS = {
     "user_token": env("SMUGMUG_USER_TOKEN"),
     "user_secret": env("SMUGMUG_USER_SECRET")
 }
+
+# Redirect to home URL after login (Default redirects to /accounts/profile/)
+LOGIN_REDIRECT_URL = '/'
+
+# TODO: Make this real
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

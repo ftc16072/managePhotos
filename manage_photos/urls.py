@@ -23,5 +23,8 @@ urlpatterns = [
     path('', RedirectView.as_view(url='photos/')),
     path('photos/', include('photos.urls')),
     path('admin/', admin.site.urls),
+    # Add Django site authentication urls (for login, logout, password management)
+    path('accounts/', include('django.contrib.auth.urls')),
 ]
+
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
