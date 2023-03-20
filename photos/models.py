@@ -18,6 +18,10 @@ class Team(models.Model):
       return True
     return False
 
+  @property
+  def albums(self):
+    return Album.objects.filter(team=self)
+
   def __str__(self):
     if self.is_active:
       return self.name

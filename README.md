@@ -1,30 +1,22 @@
 # managePhotos
 A quick application to allow managing of photos
 
-MVP for team to test:
- - Only one album and one team and one user
- - Allow uploading and searching
- - Uploading
-   - Interfaces with smugmug
- - Searching
-   - Requires pressing the button (later AJAXy)
+# Remaining to add for v1
+## User
+[ ] Allow editing of photo
+[ ] Store who uploaded a photo (and show)
+[ ] Make resetting of password use email back end
+[x] Give Profile of Albums they have access to
+[ ] Show who is logged in, and choice to logout on each page
+[ ] Search for all untagged photos
+[ ] paginate returned photos if > 10
 
-Step 2:
- - add support for multiple users
+## Admin
+[ ] Allow adding user
+[ ] Allow creating user
+[ ] Allow adding new album from weblink ( weburilookup )
 
-Step 3:
- - add support for multiple teams (one album per team)
-
-Step 4:
- - Administer teams 
-
-Step 5:
- - Clean tags
-
-Step 6:
- - Add support for multiple albums per team
-
-Step 7:
- - Add support for adding albums ( weburilookup )
-
- 
+# Remaining to add for v2
+[ ] Scan smugmug and add missing photos (but with no tags)
+[ ] Have description stored on smugmug as well
+[ ] sync pulls description from smugmug

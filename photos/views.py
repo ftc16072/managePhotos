@@ -2,8 +2,19 @@ from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render
 from django.contrib.auth.decorators import login_required
 
-from .models import Album, Photo, Tag
+from .models import Album, Photo, Tag, Team
 from . import smugmug
+
+
+@login_required
+def profile(request):
+  context = {
+      'teams': [
+          team for team in Team.objects.all() if team.user_on_team(request.user)
+      ]
+  }
+
+  return render(request, 'photos/profile.html', context)
 
 
 @login_required
