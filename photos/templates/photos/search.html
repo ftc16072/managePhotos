@@ -9,15 +9,16 @@
 
 <table>
   <tr>
-    <td><input type="radio" id="all" name="search" value="all" checked>
+    <td><input type="radio" id="all" name="search" value="all" {% if search == "all" %} checked {% endif %}>
   <label for="all">All</label>
-  <br/><input type="radio" id="any" name="search" value="any">
+  <br/><input type="radio" id="any" name="search" value="any" {% if search == "any" %} checked {% endif %}>
   <label for="any">Any</label><br>
 </td>
     <td>
 <select name="include_tags" id="include_tags" size=10 multiple>
    {% for tag in tags %}
-     <option value="{{ tag.id }}">{{ tag }}</option>
+     <option value="{{ tag.id }}"
+     {% if tag.id in include_tags %} selected {% endif %}> {{ tag }}</option>
    {% endfor %}
 </select>
 <br/>
@@ -28,7 +29,8 @@
     <td>
 <select name="exclude_tags" id="exclude_tags" size=10 multiple>
    {% for tag in tags %}
-     <option value="{{ tag.id }}">{{ tag }}</option>
+     <option value="{{ tag.id }}"
+      {% if tag.id in exclude_tags %} selected {% endif %}> {{ tag }}</option>
    {% endfor %}
 </select>
 <br/>
@@ -54,8 +56,10 @@
 </form>
 
 <br/>
-
+<HR/>
 {% if photos %}
+<H2> {{ photos.count }} photos found! </H2>
+
 <table>
   <tr><th>By</th><th>Image</th><th>Tags</th></tr>
   {% for photo in photos %}
@@ -75,6 +79,6 @@
   {% endfor %}
 </table>
 {% else %}
-None matching search<br/>
+<H2>No matching photos found</H2>
 {% endif %}  
 {% endblock %}

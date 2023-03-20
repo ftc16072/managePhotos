@@ -160,7 +160,10 @@ def search(request, album_id):
 
   context = {
       "album": album,
-      "tags": Tag.objects.filter(album=album).order_by('name')
+      "tags": Tag.objects.filter(album=album).order_by('name'),
+      "search": "all",
+      "include_tags": [],
+      "exclude_tags": []
   }
   if request.method == 'POST':
     queryDict = dict(request.POST)
@@ -168,17 +171,22 @@ def search(request, album_id):
         'include_tags'] if 'include_tags' in queryDict else []
     search = queryDict['search']
 
-    if search == 'any':
+    if search == ['any']:
       context['photos'] = Photo.objects.filter(album=album,
                                                tags__in=include_tags)
+      context['search'] = 'any'
+      for tag in include_tags:
+        context['include_tags'].append(int(tag))
     else:
       context['photos'] = Photo.objects.filter(album=album)
       for tag in include_tags:
         context['photos'] = context['photos'].filter(tags=tag)
+        context['include_tags'].append(int(tag))
 
     if 'exclude_tags' in request.POST:
       exclude_tags = queryDict['exclude_tags']
       for tag in exclude_tags:
+        context['exclude_tags'].append(int(tag))
         context['photos'] = context['photos'].exclude(tags=tag)
-
+  print(f"Context: {context}")
   return render(request, 'photos/search.html', context)
