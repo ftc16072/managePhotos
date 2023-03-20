@@ -172,8 +172,8 @@ def search(request, album_id):
     search = queryDict['search']
 
     if search == ['any']:
-      context['photos'] = Photo.objects.filter(album=album,
-                                               tags__in=include_tags)
+      context['photos'] = Photo.objects.filter(
+          album=album, tags__in=include_tags).distinct()
       context['search'] = 'any'
       for tag in include_tags:
         context['include_tags'].append(int(tag))
