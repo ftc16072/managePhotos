@@ -39,6 +39,7 @@
 </td>
 <script>
   function findUntagged(){
+    all.checked  = true;
     setAllOptions(include_tags, false);
     setAllOptions(exclude_tags, true);
     document.getElementById("search").submit();
