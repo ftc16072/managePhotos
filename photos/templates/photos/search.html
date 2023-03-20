@@ -8,6 +8,11 @@
 <H1>Searching {{ album }} - <A href="{% url 'upload' album_id=album.id %}">Upload</A></H1>
 
 <table>
+<tr>
+  <td colspan=4>
+    <div style="text-align: center">
+  <input type="button" onclick='findUntagged()' value="Untagged"/></div></td></tr>
+
   <tr>
     <td><input type="radio" id="all" name="search" value="all" {% if search == "all" %} checked {% endif %}>
   <label for="all">All</label>
@@ -49,7 +54,6 @@
   <td colspan=4>
     <div style="text-align: center">
 <input type="submit" value="Search">
-<input type="button" onclick='findUntagged()' value="Untagged"/>
 </div>
 </td>
 </tr>
