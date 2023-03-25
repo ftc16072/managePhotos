@@ -24,7 +24,8 @@ A quick application to allow managing of photos
 [ ] paginate returned photos if > 10
 
 ## Smugmug stuff
-[ ] Scan smugmug and add missing photos (but with no tags)
+[x] Scan smugmug and add missing photos (but with no tags)
+[x] sync pulls description from smugmug
 [ ] Have description stored on smugmug as well
-[ ] sync pulls description from smugmug
+[ ] Put tags on smugmug as keywords
 

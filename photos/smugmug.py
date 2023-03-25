@@ -71,3 +71,36 @@ def get_album_from_url(gallery_url):
   r = get_auth_session().get(url, params=params, headers=headers)
   json = r.json()['Response']
   return (json['Album']['Name'], json['Album']['Uri'])
+
+
+def get_images_from_gallery(album_uri):
+  imageDict = dict()
+
+  headers = {'X-Smug-Version': 'v2', 'Accept': 'application/json'}
+
+  params = {
+      "Scope": album_uri,
+      "SortDirection": "Descending",
+      "SortMethod": "DateUploaded",
+      "start": 1,
+      "count": 10
+  }
+
+  url = "https://api.smugmug.com/api/v2/image!search"
+
+  done = False
+  while not done:
+    r = get_auth_session().get(url, params=params, headers=headers)
+    json = r.json()['Response']
+
+    images = json['Image']
+
+    for image in images:
+      imageDict[image['Uri']] = image
+    if json['Pages']['Total'] > (json['Pages']['Start'] +
+                                 json['Pages']['Count']):
+      params['start'] += params['count']
+    else:
+      done = True
+
+  return imageDict

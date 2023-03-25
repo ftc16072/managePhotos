@@ -75,6 +75,29 @@ def profile(request):
 
 
 @login_required
+def sync(request, album_id):
+  numAdded = 0
+  album = get_object_or_404(Album, pk=album_id)
+  imageDict = smugmug.get_images_from_gallery(album.smugmug_uri)
+  # For each image that is in smugmug but we don't know, add it
+  for image in imageDict:
+    try:
+      i = Photo.objects.get(smugmug_uri=image, album=album)
+    except Photo.DoesNotExist:
+      details = imageDict[image]
+      photo = Photo()
+      photo.album = album
+      photo.smugmug_uri = image
+      photo.description = details['Caption']
+      ## TODO - add tags from keywords here if needed
+      photo.save()
+      numAdded += 1
+
+  context = {"album": album, "numAdded": numAdded}
+  return render(request, 'photos/syncResults.html', context)
+
+
+@login_required
 def upload(request, album_id):
   album = get_object_or_404(Album, pk=album_id)
 

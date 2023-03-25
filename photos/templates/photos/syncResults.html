@@ -1,0 +1,13 @@
+{% extends "photos/base.html" %}
+{% block title %}Sync Results{% endblock %}
+{% block content %}
+
+<H1>Sync results for {{ album }}</H1>
+<ul>
+  <li> {{ numAdded }} photos added from Smugmug!!
+</ul>
+
+<H1><A href="{% url 'upload' album_id=album.id %}">Upload</A></H1>
+<H1><A href="{% url 'search' album_id=album.id %}">Search</A></H1>
+
+{% endblock %}
