@@ -132,5 +132,4 @@ SMUGMUG_CREDENTIALS = {
 # Redirect to home URL after login (Default redirects to /accounts/profile/)
 LOGIN_REDIRECT_URL = 'photos/profile'
 
-# TODO: Make this real
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = env("EMAIL_BACKEND")
