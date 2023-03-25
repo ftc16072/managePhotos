@@ -5,7 +5,7 @@ A quick application to allow managing of photos
 ## User
 [x] Allow editing of photo metadata
 [x] Store who uploaded a photo (and show)
-[ ] Make resetting of password use email back end
+[x] Make resetting of password use email back end
 [x] Give Profile of Albums they have access to
 [x] Show who is logged in, and choice to logout on each page
 [x] Search for all untagged photos
