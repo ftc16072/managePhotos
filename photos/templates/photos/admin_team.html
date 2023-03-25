@@ -37,13 +37,16 @@
 <table>
   <tr><th>First</th><th>Last</th><th>Email</th><th>Admin</th><th>Action</th></tr>
   {% for admin in admins %}
-  <tr><td>{{ admin.first_name}}</td><td>{{ admin.last_name }}</td><td>{{admin.email}}</td><td><input type="checkbox" checked disabled></input></td>
-    <td></td>
+  <tr><td>{{ admin.first_name}}</td><td>{{ admin.last_name }}</td><td>{{admin.email}}</td><td><input type="checkbox" checked disabled></input>
+    <A href="{% url 'team_demote' team_id=team.id user_id=admin.id %}">Demote</A></td>
+    <td><A href="{% url 'team_remove' team_id=team.id user_id=admin.id %}">Remove</A></td>
   </tr>
   {% endfor %}
+  <tr><td colspan=5> </td><tr/>
   {% for member in members %}
   <tr><td>{{ member.first_name}}</td><td>{{ member.last_name }}</td><td>{{member.email}}</td><td><input type="checkbox" disabled></input>
-    <td></td>
+    <A href="{% url 'team_promote' team_id=team.id user_id=member.id %}">Promote</A></td>
+    <td><A href="{% url 'team_remove' team_id=team.id user_id=member.id %}">Remove</A></td>
   </tr>
   {% endfor %}
 </table>
@@ -73,6 +76,9 @@
     <td><label for="pass2">Password:</label></td>
     <td><input type="password" id="pass2" name="pass2" size=30 placeholder="verify password"></td>
   </tr>
+  <tr>
+    <td><label for="admin">Admin:</label></td>
+    <td><input type="checkbox" id="admin" name="admin"/></td>
   <tr>
   <td colspan=2>
     <div style="text-align: center">

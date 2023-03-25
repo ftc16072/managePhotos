@@ -10,6 +10,72 @@ from . import smugmug
 
 
 @login_required
+def team_promote(request, team_id, user_id):
+  team = get_object_or_404(Team, pk=team_id)
+
+  context = {
+      "team": team,
+      "albums": Album.objects.filter(team=team),
+      "admins": team.admins.all(),
+      "members": team.members.all(),
+      "error": ""
+  }
+
+  if not team.admin_on_team(request.user):
+    return render(request, 'photos/no_admin_permission.html', context)
+
+  user = CustomUser.objects.get(pk=user_id)
+  team.admins.add(user)
+  team.members.remove(user)
+
+  return render(request, "photos/admin_team.html", context)
+
+
+@login_required
+def team_demote(request, team_id, user_id):
+  team = get_object_or_404(Team, pk=team_id)
+
+  context = {
+      "team": team,
+      "albums": Album.objects.filter(team=team),
+      "admins": team.admins.all(),
+      "members": team.members.all(),
+      "error": ""
+  }
+
+  if not team.admin_on_team(request.user):
+    return render(request, 'photos/no_admin_permission.html', context)
+
+  user = CustomUser.objects.get(pk=user_id)
+  team.members.add(user)
+  team.admins.remove(user)
+
+  return render(request, "photos/admin_team.html", context)
+
+
+@login_required
+def team_remove(request, team_id, user_id):
+  team = get_object_or_404(Team, pk=team_id)
+
+  context = {
+      "team": team,
+      "albums": Album.objects.filter(team=team),
+      "admins": team.admins.all().order_by(),
+      "members": team.members.all(),
+      "error": ""
+  }
+
+  if not team.admin_on_team(request.user):
+    return render(request, 'photos/no_admin_permission.html', context)
+
+  user = CustomUser.objects.get(pk=user_id)
+  team.members.remove(user)
+  team.admins.remove(user)
+
+  return render(request, "photos/admin_team.html", context)
+
+
+@login_required
 def team_admin(request, team_id):
   team = get_object_or_404(Team, pk=team_id)
 
@@ -53,8 +119,12 @@ def team_admin(request, team_id):
         else:
           context["error"] = "Passwords must match to create user"
       if user:
-        team.members.add(user)
-        context['members'] = team.members.all()
+        if 'admin' in request.POST:
+          team.admins.add(user)
+          context['admins'] = team.admins.all()
+        else:
+          team.members.add(user)
+          context['members'] = team.members.all()
 
   return render(request, "photos/admin_team.html", context)
 
