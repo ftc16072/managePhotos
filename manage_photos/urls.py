@@ -18,12 +18,18 @@ from django.urls import include, path
 from django.views.generic.base import RedirectView
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('', RedirectView.as_view(url='photos/')),
     path('photos/', include('photos.urls')),
     path('admin/', admin.site.urls),
     # Add Django site authentication urls (for login, logout, password management)
+    path('accounts/password_change/',
+         auth_views.PasswordChangeView.as_view(
+             template_name='registration/password_change.html',
+             success_url='/photos/'),
+         name='change_password'),
     path('accounts/', include('django.contrib.auth.urls')),
 ]
 
