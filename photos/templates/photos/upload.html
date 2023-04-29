@@ -1,8 +1,8 @@
 {% extends "photos/base.html" %}
 {% block title %}Upload{% endblock %}
 {% block content %}
-{% if key %}
-  <H1>Uploaded {{ key }}</H1>
+{% if num_images %}
+  <H1>Uploaded {{ num_images }}</H1>
 {% endif %}  
 <form method="post" enctype="multipart/form-data">
 {% csrf_token %}

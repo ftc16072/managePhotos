@@ -181,20 +181,21 @@ def upload(request, album_id):
       "tags": Tag.objects.filter(album=album).order_by('name')
   }
 
-  if request.method == 'POST' and request.FILES['upload']:
-    upload = request.FILES['upload']
-    photo_uri = smugmug.upload_data(album.smugmug_uri, upload.name,
-                                    upload.read())
-    photo = Photo()
-    photo.album = album
-    photo.smugmug_uri = photo_uri
-    photo.description = request.POST['description']
-    photo.uploaded_by = request.user
-    photo.save()
+  if request.method == 'POST' and request.FILES['images']:
+    images = request.FILES.getlist('images')
+    for image in images:
+      photo_uri = smugmug.upload_data(album.smugmug_uri, image.name,
+                                      image.read())
+      photo = Photo()
+      photo.album = album
+      photo.smugmug_uri = photo_uri
+      photo.description = request.POST['description']
+      photo.uploaded_by = request.user
+      photo.save()
 
-    set_tags(photo, album, request.POST)
+      set_tags(photo, album, request.POST)
 
-    context["key"] = photo_uri
+    context["num_images"] = len(images)
 
   return render(request, 'photos/upload.html', context)
 
