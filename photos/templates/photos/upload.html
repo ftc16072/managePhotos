@@ -1,15 +1,15 @@
 {% extends "photos/base.html" %}
 {% block title %}Upload{% endblock %}
 {% block content %}
-{% if key %}
-  <H1>Uploaded {{ key }}</H1>
+{% if num_images %}
+  <H1>Uploaded {{ num_images }}</H1>
 {% endif %}  
 <form method="post" enctype="multipart/form-data">
 {% csrf_token %}
 
 <H1>Uploading to {{ album }} - <A href="{% url 'search' album_id=album.id %}">Search</A></H1>
 
-<input type="file" name="upload" accept="image/*">
+<input type="file" name="images" accept="image/*" multiple>
 <br/>
 
 <table>
